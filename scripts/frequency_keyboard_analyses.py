@@ -1,9 +1,9 @@
 import sqlite3
 from collections import Counter
 
-import matplotlib.pyplot as plt
-import pandas as pd
-from pandas.core.frame import Index
+import matplotlib.pyplot as plt  # pylint: disable=import-error
+import pandas as pd  # pylint: disable=import-error
+from pandas.core.frame import Index  # pylint: disable=import-error
 
 MINIMAL_VALUE = 1
 

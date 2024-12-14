@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import time
 from string import ascii_letters
 from string import ascii_lowercase
 from string import ascii_uppercase
@@ -9,7 +10,6 @@ from typing import Any
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from datetime import time
 
 RUSSIAN_LETTERS_LOWER = "юпхыяеаоиуйэцкьъзшщдлвмстрнгжчб"
 RUSSIAN_LETTERS_UPPER = "ЮПХЫЯЕАОИУЙЭЦКЬЪЗШЩДЛВМСТРНГЖЧБ"

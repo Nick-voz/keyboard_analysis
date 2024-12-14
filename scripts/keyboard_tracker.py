@@ -2,9 +2,9 @@ import sqlite3
 from time import sleep
 from time import time
 
-from pynput.keyboard import Key
-from pynput.keyboard import KeyCode
-from pynput.keyboard import Listener
+from pynput.keyboard import Key  # pylint: disable=import-error
+from pynput.keyboard import KeyCode  # pylint: disable=import-error
+from pynput.keyboard import Listener  # pylint: disable=import-error
 
 
 def retry(max_attempts: int = 5, backoff_factor: float = 0.1):

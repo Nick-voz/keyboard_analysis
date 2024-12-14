@@ -10,14 +10,12 @@ from typing import Any
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-
-RUSSIAN_LETTERS_LOWER = "юпхыяеаоиуйэцкьъзшщдлвмстрнгжчб"
-RUSSIAN_LETTERS_UPPER = "ЮПХЫЯЕАОИУЙЭЦКЬЪЗШЩДЛВМСТРНГЖЧБ"
-RUSSIAN_LETTERS = RUSSIAN_LETTERS_LOWER + RUSSIAN_LETTERS_UPPER
+from env import DB_PATH
+from env import MEDIA_ROOT
 
 
 def load_keys_df() -> pd.DataFrame:
-    connection = sqlite3.connect("key_presses.db")
+    connection = sqlite3.connect(DB_PATH)
 
     query = "SELECT key FROM keypress ORDER BY timestamp"
     _keys_df = pd.read_sql_query(query, connection)
@@ -81,6 +79,6 @@ plt.ylabel("Текущая клавиша", fontsize=12)
 plt.yticks(rotation=0)
 
 
-plt.savefig("/Users/nikitavozisow/Desktop/pyres.png", bbox_inches="tight")
-# plt.show()
+plt.savefig(MEDIA_ROOT, bbox_inches="tight")
+plt.show()
 plt.close()

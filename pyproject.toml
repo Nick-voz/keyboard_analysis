@@ -28,12 +28,13 @@ multi_line_output = 3
 force_single_line = true
 
 known_standard_library = [
- "typing",
- "collections",
- "time",
- "sqlite3",
- "string",
- "datetime",
+    "os",
+    "typing",
+    "collections",
+    "time",
+    "sqlite3",
+    "string",
+    "datetime",
 ]
 
 known_third_party = [
@@ -44,6 +45,7 @@ known_third_party = [
 ]
 
 known_local_folder = [
+    "scripts"
 ]
 
 sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
@@ -73,6 +75,8 @@ python = "3.13"
 pandas = "^2.2.3"
 matplotlib = "^3.10.0"
 pynput = "^1.7.7"
+python-dotenv = "^1.0.1"
+seaborn = "^0.13.2"
 
 
 [build-system]

@@ -6,9 +6,10 @@ import pandas as pd  # pylint: disable=import-error
 from pandas.core.frame import Index  # pylint: disable=import-error
 
 MINIMAL_VALUE = 1
+from env import DB_PATH
 
 
-def visual_analyze_key_frequency(db_path="key_presses.db"):
+def visual_analyze_key_frequency(db_path=DB_PATH):
     with sqlite3.connect(db_path) as db:
         cursor = db.cursor()
 
@@ -34,7 +35,7 @@ def visual_analyze_key_frequency(db_path="key_presses.db"):
     plt.show()
 
 
-def analyze_key_frequency(db_path="key_presses.db"):
+def analyze_key_frequency(db_path=DB_PATH):
     with sqlite3.connect(db_path) as db:
         cursor = db.cursor()
 

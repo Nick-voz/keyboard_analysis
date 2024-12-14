@@ -79,6 +79,6 @@ plt.ylabel("Текущая клавиша", fontsize=12)
 plt.yticks(rotation=0)
 
 
-plt.savefig(MEDIA_ROOT, bbox_inches="tight")
+plt.savefig(f"{MEDIA_ROOT}pairs.png", bbox_inches="tight")
 plt.show()
 plt.close()

@@ -12,6 +12,7 @@ import pandas as pd
 import seaborn as sns
 from env import DB_PATH
 from env import MEDIA_ROOT
+from env import RUSSIAN_LETTERS
 
 
 def load_keys_df() -> pd.DataFrame:

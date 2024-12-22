@@ -56,10 +56,10 @@ def get_filtered_pyres(filter: Literal["asci", "ru", "punctuation"]):
     global NAME  # pylint: disable=global-statement
     keys_df = load_keys_df()
     if filter == "asci":
-        pyres = get_pyres(keys_df, ascii_letters)
+        pyres = get_pyres(keys_df, ascii_letters + punctuation)
         NAME = "ascii_letters"
     elif filter == "ru":
-        pyres = get_pyres(keys_df, RUSSIAN_LETTERS)
+        pyres = get_pyres(keys_df, RUSSIAN_LETTERS + punctuation)
         NAME = "russian"
     else:
         pyres = get_pyres(keys_df, punctuation)
@@ -109,7 +109,7 @@ def ask_for_filter() -> Literal["ru", "asci", "punctuation"]:
         "2": "punctuation",
     }
     value = input(
-        "chose allowed keys: ru(0), ascii letters(1), punctuation(2): "
+        "Chose allowed keys: ru(0), ascii letters(1), punctuation(2): "
     )
     if value not in options:
         return ask_for_filter()

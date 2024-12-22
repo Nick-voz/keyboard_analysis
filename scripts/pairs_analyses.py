@@ -97,7 +97,8 @@ def create_visualization(filtered_frequency_table):
 
 def save_visalization():
     _date = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
-    plt.savefig(f"{MEDIA_ROOT}pairs_{NAME}_{_date}.png", bbox_inches="tight")
+    file_name = f"{MEDIA_ROOT}pairs_{_date}_{NAME}.png"
+    plt.savefig(file_name, bbox_inches="tight")
     plt.close()
 
 

@@ -52,15 +52,23 @@ def get_pyres(
     return _pyres
 
 
-def get_filtered_pyres(filter: Literal["asci", "ru", "punctuation"]):
+def get_filtered_pyres(
+    filter: Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]
+):
     global NAME  # pylint: disable=global-statement
     keys_df = load_keys_df()
     if filter == "asci":
-        pyres = get_pyres(keys_df, ascii_letters + punctuation)
+        pyres = get_pyres(keys_df, ascii_letters)
         NAME = "ascii_letters"
     elif filter == "ru":
-        pyres = get_pyres(keys_df, RUSSIAN_LETTERS + punctuation)
+        pyres = get_pyres(keys_df, RUSSIAN_LETTERS)
         NAME = "russian"
+    elif filter == "asci+p":
+        pyres = get_pyres(keys_df, ascii_letters + punctuation)
+        NAME = "ascii_letters+punctuation"
+    elif filter == "ru+p":
+        pyres = get_pyres(keys_df, RUSSIAN_LETTERS + punctuation)
+        NAME = "russian+punctuation"
     else:
         pyres = get_pyres(keys_df, punctuation)
         NAME = "punctuation"
@@ -76,12 +84,12 @@ def prepare_data(pyres):
     return frequency_table.loc[keys, keys]
 
 
-def create_visualization(filtered_frequency_table):
+def create_visualization(filtered_frequency_table, annot=False):
     plt.figure(figsize=(20, 18))
     sns.set_theme(font_scale=1)
     sns.heatmap(
         filtered_frequency_table,
-        annot=True,
+        annot=annot,
         fmt="d",
         cmap="YlGnBu",
         cbar_kws={"label": "Частота"},
@@ -102,15 +110,26 @@ def save_visalization():
     plt.close()
 
 
-def ask_for_filter() -> Literal["ru", "asci", "punctuation"]:
-    options: dict[str, Literal["ru", "asci", "punctuation"]] = {
+PROMPT = """Chose allowed keys: 
+ru(0), 
+ascii letters(1),
+punctuation(2),
+ru+punctuation(3),
+ascii+punctuation(4)
+>>> """
+
+
+def ask_for_filter() -> Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]:
+    options: dict[
+        str, Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]
+    ] = {
         "0": "ru",
         "1": "asci",
         "2": "punctuation",
+        "3": "ru+p",
+        "4": "asci+p",
     }
-    value = input(
-        "Chose allowed keys: ru(0), ascii letters(1), punctuation(2): "
-    )
+    value = input(PROMPT)
     if value not in options:
         return ask_for_filter()
     return options[value]

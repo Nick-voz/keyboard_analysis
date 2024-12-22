@@ -5,18 +5,29 @@ from string import punctuation
 from typing import Any
 from typing import Literal
 
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
-from env import DB_PATH
-from env import MEDIA_ROOT
-from env import RUSSIAN_LETTERS
+import matplotlib.pyplot as plt  # pylint: disable=import-error
+import pandas as pd  # pylint: disable=import-error
+import seaborn as sns  # pylint: disable=import-error
+from env import DB_PATH  # pylint: disable=import-error
+from env import MEDIA_ROOT  # pylint: disable=import-error
+from env import RUSSIAN_LETTERS  # pylint: disable=import-error
 
 NAME = None
 
 
+PROMPT = """Chose allowed keys:
+ru(0), 
+ascii letters(1),
+punctuation(2),
+ru+punctuation(3),
+ascii+punctuation(4)
+>>> """
+
+
 def load_keys_df() -> pd.DataFrame:
-    connection = sqlite3.connect(DB_PATH)
+    connection = sqlite3.connect(
+        DB_PATH,  # pyright: ignore[reportArgumentType]
+    )
 
     query = "SELECT key FROM keypress ORDER BY timestamp"
     _keys_df = pd.read_sql_query(query, connection)
@@ -48,20 +59,20 @@ def get_pyres(
 
 
 def get_filtered_pyres(
-    filter: Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]
+    _filter: Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]
 ):
     global NAME  # pylint: disable=global-statement
     keys_df = load_keys_df()
-    if filter == "asci":
+    if _filter == "asci":
         pyres = get_pyres(keys_df, ascii_letters)
         NAME = "ascii_letters"
-    elif filter == "ru":
+    elif _filter == "ru":
         pyres = get_pyres(keys_df, RUSSIAN_LETTERS)
         NAME = "russian"
-    elif filter == "asci+p":
+    elif _filter == "asci+p":
         pyres = get_pyres(keys_df, ascii_letters + punctuation)
         NAME = "ascii_letters+punctuation"
-    elif filter == "ru+p":
+    elif _filter == "ru+p":
         pyres = get_pyres(keys_df, RUSSIAN_LETTERS + punctuation)
         NAME = "russian+punctuation"
     else:
@@ -103,15 +114,6 @@ def save_visalization():
     file_name = f"{MEDIA_ROOT}pairs_{_date}_{NAME}.png"
     plt.savefig(file_name, bbox_inches="tight")
     plt.close()
-
-
-PROMPT = """Chose allowed keys: 
-ru(0), 
-ascii letters(1),
-punctuation(2),
-ru+punctuation(3),
-ascii+punctuation(4)
->>> """
 
 
 def ask_for_filter() -> Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]:

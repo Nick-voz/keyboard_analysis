@@ -1,12 +1,7 @@
 import sqlite3
-from datetime import date
 from datetime import datetime
-from datetime import time
 from string import ascii_letters
-from string import ascii_lowercase
-from string import ascii_uppercase
 from string import punctuation
-from time import sleep
 from typing import Any
 from typing import Literal
 

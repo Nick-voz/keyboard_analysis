@@ -13,8 +13,6 @@ from env import MEDIA_ROOT  # pylint: disable=import-error
 from env import RUSSIAN_LETTERS  # pylint: disable=import-error
 
 NAME = None
-
-
 PROMPT = """Chose allowed keys:
 ru(0), 
 ascii letters(1),
@@ -25,9 +23,7 @@ ascii+punctuation(4)
 
 
 def load_keys_df() -> pd.DataFrame:
-    connection = sqlite3.connect(
-        DB_PATH,  # pyright: ignore[reportArgumentType]
-    )
+    connection = sqlite3.connect(DB_PATH)
 
     query = "SELECT key FROM keypress ORDER BY timestamp"
     _keys_df = pd.read_sql_query(query, connection)
@@ -82,6 +78,18 @@ def get_filtered_pyres(
 
 
 def prepare_data(pyres):
+    """Prepares keypress data for visualization.
+
+    Args:
+        pyres: A list of tuples, where each tuple contains a pair of consecutive keypresses.
+
+    Returns:
+        pd.DataFrame: A Pandas DataFrame representing a frequency table of keypress pairs,
+                      with rows and columns representing the first and second keys respectively,
+                      and values representing the frequency of each pair.  The DataFrame is
+                      square, containing only keys present in the input data.
+    """
+
     pyres_df = pd.DataFrame(pyres, columns=["first_key", "second_key"])
     frequency_table = pyres_df.pivot_table(
         index="first_key", columns="second_key", aggfunc="size", fill_value=0
@@ -110,6 +118,11 @@ def create_visualization(filtered_frequency_table, annot=False):
 
 
 def save_visalization():
+    """Saves the generated heatmap visualization to a PNG file.
+
+    The function saves the currently active Matplotlib figure to a PNG file.
+    The filename includes a timestamp and the name of the key set used for the visualization (e.g., "ascii_letters", "russian", etc.).  The file is saved to the directory specified by the `MEDIA_ROOT` environment variable.  After saving, the figure is closed.
+    """
     _date = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
     file_name = f"{MEDIA_ROOT}pairs_{_date}_{NAME}.png"
     plt.savefig(file_name, bbox_inches="tight")
@@ -117,6 +130,21 @@ def save_visalization():
 
 
 def ask_for_filter() -> Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]:
+    """Asks the user to choose a filter for keypress data.
+
+    Presents the user with a menu of options for filtering keypress data:
+    - ru (Russian letters)
+    - asci (ASCII letters)
+    - punctuation
+    - ru+p (Russian letters and punctuation)
+    - asci+p (ASCII letters and punctuation)
+
+    Repeatedly prompts the user until a valid option is selected.
+
+    Returns:
+        Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]: The chosen filter.
+    """
+
     options: dict[
         str, Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]
     ] = {

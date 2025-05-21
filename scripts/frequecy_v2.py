@@ -90,9 +90,7 @@ def analyze_key_frequency(db_path=DB_PATH):
     key_list = convert_to_key_list(keys)
     key_frequency = calculate_frequency(key_list)
     sorted_frequency = key_frequency.most_common()
-    filtered_frequency = filter_minimal_frequency(
-        sorted_frequency, MINIMAL_VALUE
-    )
+    filtered_frequency = filter_minimal_frequency(sorted_frequency, MINIMAL_VALUE)
     print_frequency_analysis(filtered_frequency, count)
 
 

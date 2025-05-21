@@ -1,11 +1,11 @@
 import sqlite3
-from time import sleep
-from time import time
+from time import sleep, time
 
-from env import DB_PATH
 from pynput.keyboard import Key  # pylint: disable=import-error
 from pynput.keyboard import KeyCode  # pylint: disable=import-error
 from pynput.keyboard import Listener  # pylint: disable=import-error
+
+from scripts.env import DB_PATH
 
 
 def retry(max_attempts: int = 5, backoff_factor: float = 0.1):
@@ -15,6 +15,8 @@ def retry(max_attempts: int = 5, backoff_factor: float = 0.1):
             while attempts < max_attempts:
                 try:
                     return func(*args, **kwargs)
+                except sqlite3.IntegrityError:  # not null constraint aborting
+                    return
                 except sqlite3.Error as e:
                     print(f"Database error occurred: {e}")
                     if attempts < max_attempts - 1:
@@ -29,6 +31,7 @@ def retry(max_attempts: int = 5, backoff_factor: float = 0.1):
     return decorator
 
 
+@retry
 def on_press(key: Key | KeyCode | None):
     if key is None:
         return

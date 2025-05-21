@@ -91,9 +91,7 @@ def analyze_key_frequency(db_path=DB_PATH):
     print("\nSummary Statistics:")
     print(f"Total keypresses: {total_count}")
     print(f"Unique keys: {len(df)}")
-    print(
-        f"Most frequent key: {df.iloc[0]['Key']} ({df.iloc[0]['Frequency']} times)"
-    )
+    print(f"Most frequent key: {df.iloc[0]['Key']} ({df.iloc[0]['Frequency']} times)")
     print(
         f"Least frequent key: {df.iloc[-1]['Key']} ({df.iloc[-1]['Frequency']} times)"
     )

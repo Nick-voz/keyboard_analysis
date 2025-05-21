@@ -1,9 +1,7 @@
 import sqlite3
 from datetime import datetime
-from string import ascii_letters
-from string import punctuation
-from typing import Any
-from typing import Literal
+from string import ascii_letters, punctuation
+from typing import Any, Literal
 
 import matplotlib.pyplot as plt  # pylint: disable=import-error
 import pandas as pd  # pylint: disable=import-error
@@ -54,9 +52,7 @@ def get_pyres(
     return _pyres
 
 
-def get_filtered_pyres(
-    _filter: Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]
-):
+def get_filtered_pyres(_filter: Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]):
     global NAME  # pylint: disable=global-statement
     keys_df = load_keys_df()
     if _filter == "asci":
@@ -145,9 +141,7 @@ def ask_for_filter() -> Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]:
         Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]: The chosen filter.
     """
 
-    options: dict[
-        str, Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]
-    ] = {
+    options: dict[str, Literal["asci", "ru", "punctuation", "asci+p", "ru+p"]] = {
         "0": "ru",
         "1": "asci",
         "2": "punctuation",
